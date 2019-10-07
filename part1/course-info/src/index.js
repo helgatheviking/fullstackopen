@@ -55,7 +55,11 @@ const Part = (props) => {
 }
 
 const Footer = (props) => {
-    let total = props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises;
+
+    let total = props.parts.reduce(function(previousValue, currentValue) {
+      return previousValue + currentValue.exercises
+    }, 0 )
+
 
     return (
           <p>Number of exercises {total}</p>
