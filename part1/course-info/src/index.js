@@ -39,9 +39,9 @@ const Content = (props) => {
   console.log(props);
     return (
         <div>
-            <Part title={props.parts[0].name} num_exercises={props.parts[0].exercises} />
-            <Part title={props.parts[1].name} num_exercises={props.parts[1].exercises} />
-            <Part title={props.parts[2].name} num_exercises={props.parts[2].exercises} />
+            {props.parts.map((part, i) => { 
+                return (<Part key={i} title={part.name} num_exercises={part.exercises} />) 
+            })}
         </div>
       )
 }
