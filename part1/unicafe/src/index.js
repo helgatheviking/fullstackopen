@@ -16,6 +16,17 @@ const App = () => {
   const handleBadClick = () => {
     setBad(bad + 1)
   }
+  const getTotal = () => {
+    return bad + good + neutral;
+  }
+  const getAverage = () => {
+    return getTotal() / 3;
+  }
+  const getPercentPositive = () => {
+    return good > 0 ? good * 100 / getTotal() : 0;
+  }
+
+  console.log( bad + good + neutral);
 
   return (
     <div>
@@ -28,9 +39,13 @@ const App = () => {
       <Statistic text="Good" value={good} />
       <Statistic text="Neutral" value={neutral} />
       <Statistic text="Bad" value={bad} />
+      <Statistic text="Average" value={getAverage()} />
+      <Statistic text="Positive" value={getPercentPositive() + "%"} />
     </div>
   )
 }
+
+
 
 const Header = ({ text }) => (<h2>{text}</h2>)
 
