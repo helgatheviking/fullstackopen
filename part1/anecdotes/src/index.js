@@ -9,6 +9,9 @@ const App = ({anecdotes}) => {
     const [selected, setSelected] = useState(0)
     const [votes, setVoteCount] = useState(new Array(anecdotes.length).fill(0))
 
+    const mostVotesValue = Math.max(...votes)
+    const mostVotesIndex = votes.indexOf(mostVotesValue)
+
     const handleNextClick = () => {
         setSelected(Math.floor((Math.random() * anecdotes.length)))
     }
@@ -16,16 +19,6 @@ const App = ({anecdotes}) => {
         const newVoteCount = [...votes]
         newVoteCount[selected] += 1
         setVoteCount(newVoteCount)
-      }
-
-    const getHighestValueKey = () => {
-        let highestValue = votes.reduce((max, i) => max > i ? max : i, 0);
-
-        function findHighestValue(value) {
-            return value === highestValue;
-        }
-
-        return votes.findIndex(findHighestValue); // This is the first instance, we don't care about possible duplicates.
     }
 
     return (
@@ -40,8 +33,8 @@ const App = ({anecdotes}) => {
 
             <div>
                 <Header text="Anecdote with the Most Votes" />
-                <p>{anecdotes[getHighestValueKey()]}</p>
-                <p>Has {votes[getHighestValueKey()]} votes</p>
+                <p>{anecdotes[mostVotesIndex]}</p>
+                <p>Has {votes[mostVotesIndex]} votes</p>
             </div>
 
         </div>
