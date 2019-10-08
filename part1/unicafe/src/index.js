@@ -1,6 +1,42 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const Header = ({ text }) => (<h2>{text}</h2>)
+const Button = ({ onClick, text }) => (<button className={text.toLowerCase()} onClick={onClick}>{text}</button>)
+const Statistic = ({ text, value }) => (<p>{text}: {value}</p>)
+
+const Statistics = ( {heading, stats} ) => {
+
+    // Destructuring see: https://amido.com/blog/using-es6-destructuring-in-your-react-components/
+  const {
+    good,
+    bad,
+    neutral
+  } = stats;
+
+  const getTotal = () => {
+    return bad + good + neutral;
+  }
+  const getAverage = () => {
+    return getTotal() / 3;
+  }
+  const getPercentPositive = () => {
+    return good > 0 ? good * 100 / getTotal() : 0;
+  }
+
+  return (
+    <div>
+      <Header text={heading} />
+      <Statistic text="Good" value={good} />
+      <Statistic text="Neutral" value={neutral} />
+      <Statistic text="Bad" value={bad} />
+      <Statistic text="Average" value={getAverage()} />
+      <Statistic text="Positive" value={getPercentPositive() + "%"} />
+    </div>
+  )
+
+}
+
 const App = () => {
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
@@ -16,17 +52,11 @@ const App = () => {
   const handleBadClick = () => {
     setBad(bad + 1)
   }
-  const getTotal = () => {
-    return bad + good + neutral;
+  const stats = {
+    good: good,
+    neutral: neutral,
+    bad: bad
   }
-  const getAverage = () => {
-    return getTotal() / 3;
-  }
-  const getPercentPositive = () => {
-    return good > 0 ? good * 100 / getTotal() : 0;
-  }
-
-  console.log( bad + good + neutral);
 
   return (
     <div>
@@ -35,23 +65,10 @@ const App = () => {
       <Button onClick={handleNeutralClick} text="Neutral" />
       <Button onClick={handleBadClick} text="Bad" />
 
-      <Header text="Statistics" />
-      <Statistic text="Good" value={good} />
-      <Statistic text="Neutral" value={neutral} />
-      <Statistic text="Bad" value={bad} />
-      <Statistic text="Average" value={getAverage()} />
-      <Statistic text="Positive" value={getPercentPositive() + "%"} />
+      <Statistics heading="Statistics" stats={stats} />
     </div>
   )
 }
-
-
-
-const Header = ({ text }) => (<h2>{text}</h2>)
-
-const Button = ({ onClick, text }) => (<button onClick={onClick}>{text}</button>)
-
-const Statistic = ({ text, value }) => (<p>{text}: {value}</p>)
 
 ReactDOM.render(<App />, 
   document.getElementById('root')
