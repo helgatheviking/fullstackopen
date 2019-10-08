@@ -2,18 +2,28 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import './index.css';
 
-const Button = ({ onClick, text }) => (<button className={text.toLowerCase()} onClick={onClick}>{text}</button>)
+const Button = ({ onClick, text }) => (<button className={text.replace(" ", "-").toLowerCase()} onClick={onClick}>{text}</button>)
 const App = (props) => {
-    const [selected, setSelected] = useState(0)
 
-    const handleClick = () => {
+    const [selected, setSelected] = useState(0)
+    const [votes, setVoteCount] = useState(new Array(props.anecdotes.length).fill(0))
+
+    const handleNextClick = () => {
         setSelected(Math.floor((Math.random() * props.anecdotes.length)))
     }
 
+    const handleVoteClick = () => {
+        const newVoteCount = [...votes]
+        newVoteCount[selected] += 1
+        setVoteCount(newVoteCount)
+      }
+
     return (
       <div>
-        <Button onClick={handleClick} text="Gimme some good advice" />
         <p>{props.anecdotes[selected]}</p>
+        <p>Has {votes[selected]} votes</p>
+        <Button onClick={handleVoteClick} text="Vote" />
+        <Button onClick={handleNextClick} text="Show Next Anecdote" />
       </div>
     )
   }
