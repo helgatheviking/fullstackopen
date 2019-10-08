@@ -2,29 +2,50 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import './index.css';
 
+const Header = ({ text }) => (<h2>{text}</h2>)
 const Button = ({ onClick, text }) => (<button className={text.replace(" ", "-").toLowerCase()} onClick={onClick}>{text}</button>)
-const App = (props) => {
+const App = ({anecdotes}) => {
 
     const [selected, setSelected] = useState(0)
-    const [votes, setVoteCount] = useState(new Array(props.anecdotes.length).fill(0))
+    const [votes, setVoteCount] = useState(new Array(anecdotes.length).fill(0))
 
     const handleNextClick = () => {
-        setSelected(Math.floor((Math.random() * props.anecdotes.length)))
+        setSelected(Math.floor((Math.random() * anecdotes.length)))
     }
-
     const handleVoteClick = () => {
         const newVoteCount = [...votes]
         newVoteCount[selected] += 1
         setVoteCount(newVoteCount)
       }
 
+    const getHighestValueKey = () => {
+        let highestValue = votes.reduce((max, i) => max > i ? max : i, 0);
+
+        function findHighestValue(value) {
+            return value === highestValue;
+        }
+
+        return votes.findIndex(findHighestValue); // This is the first instance, we don't care about possible duplicates.
+    }
+
     return (
-      <div>
-        <p>{props.anecdotes[selected]}</p>
-        <p>Has {votes[selected]} votes</p>
-        <Button onClick={handleVoteClick} text="Vote" />
-        <Button onClick={handleNextClick} text="Show Next Anecdote" />
-      </div>
+        <div>
+            <div>
+                <Header text="Anecdote of the Day" />
+                <p>{anecdotes[selected]}</p>
+                <p>Has {votes[selected]} votes</p>
+                <Button onClick={handleVoteClick} text="Vote" />
+                <Button onClick={handleNextClick} text="Show Next Anecdote" />
+            </div>
+
+            <div>
+                <Header text="Anecdote with the Most Votes" />
+                <p>{anecdotes[getHighestValueKey()]}</p>
+                <p>Has {votes[getHighestValueKey()]} votes</p>
+            </div>
+
+        </div>
+       
     )
   }
   
