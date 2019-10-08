@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
+import './index.css';
 
 const Header = ({ text }) => (<h2>{text}</h2>)
 const Button = ({ onClick, text }) => (<button className={text.toLowerCase()} onClick={onClick}>{text}</button>)
