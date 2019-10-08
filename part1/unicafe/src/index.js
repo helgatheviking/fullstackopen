@@ -4,7 +4,7 @@ import './index.css';
 
 const Header = ({ text }) => (<h2>{text}</h2>)
 const Button = ({ onClick, text }) => (<button className={text.toLowerCase()} onClick={onClick}>{text}</button>)
-const Statistic = ({ text, value }) => (<p>{text}: {value}</p>)
+const Statistic = ({ text, value }) => (<tr><td>{text}</td><td>{value}</td></tr>)
 
 const Statistics = ( {heading, stats} ) => {
 
@@ -29,11 +29,15 @@ const Statistics = ( {heading, stats} ) => {
     return (
       <div>
         <Header text={heading} />
-        <Statistic text="Good" value={good} />
-        <Statistic text="Neutral" value={neutral} />
-        <Statistic text="Bad" value={bad} />
-        <Statistic text="Average" value={getAverage()} />
-        <Statistic text="Positive" value={getPercentPositive() + "%"} />
+        <table>
+          <tbody>
+            <Statistic text="Good" value={good} />
+            <Statistic text="Neutral" value={neutral} />
+            <Statistic text="Bad" value={bad} />
+            <Statistic text="Average" value={getAverage()} />
+            <Statistic text="Positive" value={getPercentPositive() + "%"} />   
+          </tbody>
+        </table>
       </div>
     )
   } else {
