@@ -4,13 +4,36 @@ import './index.css';
 
 const Header = ({ text }) => (<h2>{text}</h2>)
 const Button = ({ onClick, text }) => (<button className={text.replace(" ", "-").toLowerCase()} onClick={onClick}>{text}</button>)
+
+const MostVotes = ({votes, anecdotes}) => {
+
+    const mostVotesValue = Math.max(...votes)
+    const mostVotesIndex = votes.indexOf(mostVotesValue)
+
+    if( mostVotesValue > 0 ) {
+
+        return (
+
+            <div>
+                <Header text="Anecdote with the Most Votes" />
+                <p>{anecdotes[mostVotesIndex]}</p>
+                <p>Has {votes[mostVotesIndex]} votes</p>
+            </div>
+        
+        )
+  }
+
+  return (
+
+    <p>No votes yet.</p>
+
+    )
+}
+
 const App = ({anecdotes}) => {
 
     const [selected, setSelected] = useState(0)
     const [votes, setVoteCount] = useState(new Array(anecdotes.length).fill(0))
-
-    const mostVotesValue = Math.max(...votes)
-    const mostVotesIndex = votes.indexOf(mostVotesValue)
 
     const handleNextClick = () => {
         setSelected(Math.floor((Math.random() * anecdotes.length)))
@@ -19,10 +42,12 @@ const App = ({anecdotes}) => {
         const newVoteCount = [...votes]
         newVoteCount[selected] += 1
         setVoteCount(newVoteCount)
-    }
+      }
 
     return (
+
         <div>
+        
             <div>
                 <Header text="Anecdote of the Day" />
                 <p>{anecdotes[selected]}</p>
@@ -31,14 +56,10 @@ const App = ({anecdotes}) => {
                 <Button onClick={handleNextClick} text="Show Next Anecdote" />
             </div>
 
-            <div>
-                <Header text="Anecdote with the Most Votes" />
-                <p>{anecdotes[mostVotesIndex]}</p>
-                <p>Has {votes[mostVotesIndex]} votes</p>
-            </div>
+            <MostVotes votes={votes} anecdotes={anecdotes} />
 
         </div>
-       
+
     )
   }
   
