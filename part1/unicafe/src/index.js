@@ -25,18 +25,24 @@ const Statistics = ( {heading, stats} ) => {
     return good > 0 ? good * 100 / getTotal() : 0;
   }
 
-  return (
-    <div>
-      <Header text={heading} />
-      <Statistic text="Good" value={good} />
-      <Statistic text="Neutral" value={neutral} />
-      <Statistic text="Bad" value={bad} />
-      <Statistic text="Average" value={getAverage()} />
-      <Statistic text="Positive" value={getPercentPositive() + "%"} />
-    </div>
-  )
-
+  if( getTotal() > 0 ) {
+    return (
+      <div>
+        <Header text={heading} />
+        <Statistic text="Good" value={good} />
+        <Statistic text="Neutral" value={neutral} />
+        <Statistic text="Bad" value={bad} />
+        <Statistic text="Average" value={getAverage()} />
+        <Statistic text="Positive" value={getPercentPositive() + "%"} />
+      </div>
+    )
+  } else {
+    return (
+      <p>No feedback given. Womp womp.</p>
+    )
+  }
 }
+
 
 const App = () => {
   // save clicks of each button to own state
