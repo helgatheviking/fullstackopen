@@ -47,30 +47,58 @@ const Summary = ({parts}) => {
 }
 
 const App = () => {
-	const course = {
-	  name: 'Half Stack application development',
-	  parts: [
+
+	const courses = [
 		{
-		  name: 'Fundamentals of React',
-		  exercises: 10,
-		  id: 1
+		  name: 'Half Stack application development',
+		  id: 1,
+		  parts: [
+			{
+			  name: 'Fundamentals of React',
+			  exercises: 10,
+			  id: 1
+			},
+			{
+			  name: 'Using props to pass data',
+			  exercises: 7,
+			  id: 2
+			},
+			{
+			  name: 'State of a component',
+			  exercises: 14,
+			  id: 3
+			},
+			{
+			  name: 'Redux',
+			  exercises: 11,
+			  id: 4
+			}
+		  ]
 		},
 		{
-		  name: 'Using props to pass data',
-		  exercises: 7,
-		  id: 2
-		},
-		{
-		  name: 'State of a component',
-		  exercises: 14,
-		  id: 3
+		  name: 'Node.js',
+		  id: 2,
+		  parts: [
+			{
+			  name: 'Routing',
+			  exercises: 3,
+			  id: 1
+			},
+			{
+			  name: 'Middlewares',
+			  exercises: 7,
+			  id: 2
+			}
+		  ]
 		}
 	  ]
-	}
+
 
 	return (
 	  <div>
-		<Course course={course} />
+		{courses.map((course, i) => {
+			return (<Course key={i} course={course} />)
+		})}
 	  </div>
 	)
 }
