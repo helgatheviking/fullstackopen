@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './App.css';
+import Form from './components/Form';
 import Directory from './components/Directory';
 
 const App = () => {
@@ -46,25 +47,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-	  	<div>
-          name: <input
-		  			value={newName}
-					onChange={handleNameChange}
-				/>
-        </div>
-		<div>
-          number: <input
-		  			value={newNumber}
-					onChange={handleNumberChange}
-				/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Form onSubmit={addPerson} name={newName} onNameChange={handleNameChange} number={newNumber} onNumberChange={handleNumberChange} />
       <Directory heading="Phone Directory" people={people} />
-	  <div>debug: {newName}: {newNumber}</div>
     </div>
   )
 }
