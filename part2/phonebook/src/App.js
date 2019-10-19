@@ -3,13 +3,21 @@ import './App.css';
 import Directory from './components/Directory';
 
 const App = () => {
-    { name: 'Arto Hellas' }
   const [ people, setPeople] = useState([
+	{
+	  name: 'Arto Hellas',
+	  number: '320-555-1234' 
+	}
   ])
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
   const handleNameChange = (event) => {
 	setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+	setNewNumber(event.target.value)
   }
 
   const isNameDuplicate = (person) => {
@@ -25,11 +33,13 @@ const App = () => {
 
 		const nameObject = {
 			name: newName,
+			number: newNumber,
 			id: people.length + 1,
 		}
 
 		setPeople(people.concat(nameObject))
 		setNewName('')
+		setNewNumber('')
 	}
   }
 
@@ -43,11 +53,18 @@ const App = () => {
 					onChange={handleNameChange}
 				/>
         </div>
+		<div>
+          number: <input
+		  			value={newNumber}
+					onChange={handleNumberChange}
+				/>
+        </div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <Directory heading="Phone Directory" people={people} />
+	  <div>debug: {newName}: {newNumber}</div>
     </div>
   )
 }
