@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './App.css';
-import Person from './components/Person';
+import Directory from './components/Directory';
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -47,13 +47,7 @@ const App = () => {
           <button type="submit">add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
-      <ul>
-		{persons.map((person, i) => {
-			return (<Person key={i} person={person} />)
-		})}
-	  </ul>
-	  <div>debug: {newName}</div>
+      <Directory heading="Phone Directory" people={people} />
     </div>
   )
 }
