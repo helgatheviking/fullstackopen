@@ -28,7 +28,7 @@ const App = () => {
 	event.preventDefault();
 
 	if( people.find( isNameDuplicate ) ) {
-		alert({newName} + "is already added to the phonebook")
+		alert(newName + " is already added to the phonebook")
 	} else {
 
 		const nameObject = {
