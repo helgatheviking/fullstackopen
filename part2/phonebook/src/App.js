@@ -7,47 +7,48 @@ const App = () => {
   const [ people, setPeople] = useState([
 	{
 	  name: 'Arto Hellas',
-	  number: '320-555-1234' 
+	  number: '320-555-1234'
 	}
   ])
-  const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber ] = useState('')
 
-  const handleNameChange = (event) => {
-	setNewName(event.target.value)
+  const defaultState = {
+		name: '',
+		number: ''
   }
+  const [ formState, setFormState ] = useState(defaultState)
 
-  const handleNumberChange = (event) => {
-	setNewNumber(event.target.value)
+  const updateFormState = (event) => {
+	const {name, value} = event.target;
+	let newFormState = {...formState, [name]: value};
+	setFormState(newFormState)
   }
 
   const isNameDuplicate = (person) => {
-	return newName === person.name
+	return formState.name === person.name
   }
 
   const addPerson = ( event ) => {
 	event.preventDefault();
 
 	if( people.find( isNameDuplicate ) ) {
-		alert(newName + " is already added to the phonebook")
+		alert(formState.name + " is already added to the phonebook")
 	} else {
 
 		const nameObject = {
-			name: newName,
-			number: newNumber,
+			name: formState.name,
+			number: formState.number,
 			id: people.length + 1,
 		}
 
 		setPeople(people.concat(nameObject))
-		setNewName('')
-		setNewNumber('')
+		setFormState(defaultState)
 	}
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Form onSubmit={addPerson} name={newName} onNameChange={handleNameChange} number={newNumber} onNumberChange={handleNumberChange} />
+      <Form onSubmit={addPerson} name={formState.name} onNameChange={updateFormState} number={formState.number} onNumberChange={updateFormState} />
       <Directory heading="Phone Directory" people={people} />
     </div>
   )

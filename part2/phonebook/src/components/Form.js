@@ -11,13 +11,15 @@ const Form = ({
 		<form onSubmit={onSubmit}>
 			<div>
 			name: <input
-						value={name}
+					name='name'
+					value={name}
 					onChange={onNameChange}
 				/>
 		</div>
 		<div>
 			number: <input
-						value={number}
+					name='number'
+					value={number}
 					onChange={onNumberChange}
 				/>
 		</div>
