@@ -45,10 +45,24 @@ const App = () => {
 	}
   }
 
+  const inputs = [
+	{
+		name: 'name',
+		value: formState.name,
+		onChange: updateFormState
+	},
+	{
+		name: 'number',
+		value: formState.number,
+		onChange: updateFormState
+	},
+
+  ]
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <Form onSubmit={addPerson} name={formState.name} onNameChange={updateFormState} number={formState.number} onNumberChange={updateFormState} />
+      <Form onSubmit={addPerson} inputs={inputs} />
       <Directory heading="Phone Directory" people={people} />
     </div>
   )

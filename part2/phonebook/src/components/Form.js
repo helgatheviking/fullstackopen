@@ -1,28 +1,16 @@
 import React from 'react'
+import Input from './Input';
 
 const Form = ({
 	onSubmit,
-	name,
-	onNameChange,
-	number,
-	onNumberChange
+	inputs
 }) => {
 	return (
 		<form onSubmit={onSubmit}>
-			<div>
-			name: <input
-					name='name'
-					value={name}
-					onChange={onNameChange}
-				/>
-		</div>
-		<div>
-			number: <input
-					name='number'
-					value={number}
-					onChange={onNumberChange}
-				/>
-		</div>
+
+		{inputs.map((input, i) => {
+				return (<Input key={i} input={input} />)
+			})}
 		<div>
 			<button type="submit">add</button>
 		</div>
