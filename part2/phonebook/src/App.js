@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import './App.css';
+import Filter from './components/Filter';
 import Form from './components/Form';
 import Directory from './components/Directory';
 
 const App = () => {
   const [ people, setPeople] = useState([
-	{
-	  name: 'Arto Hellas',
-	  number: '320-555-1234'
-	}
+	{ name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ])
 
   const defaultState = {
@@ -16,11 +17,16 @@ const App = () => {
 		number: ''
   }
   const [ formState, setFormState ] = useState(defaultState)
+  const [ newFilter, setNewFilter ] = useState('');
 
   const updateFormState = (event) => {
 	const {name, value} = event.target;
 	let newFormState = {...formState, [name]: value};
 	setFormState(newFormState)
+  }
+
+  const updateFilterState = (event) => {
+	setNewFilter(event.target.value)
   }
 
   const isNameDuplicate = (person) => {
@@ -59,11 +65,25 @@ const App = () => {
 
   ]
 
+  const searchInputs = [
+	{
+		name: 'filter',
+		value: newFilter,
+		onChange: updateFilterState
+	},
+  ]
+
+  let foundPeople = newFilter !== ''
+  		? people.filter(person => person.name.toLowerCase().indexOf(newFilter.toLowerCase()) !== -1)
+		: people;
+
   return (
+
     <div>
       <h2>Phonebook</h2>
+	  <Filter inputs={searchInputs} />
       <Form onSubmit={addPerson} inputs={inputs} />
-      <Directory heading="Phone Directory" people={people} />
+      <Directory heading="Phone Directory" people={foundPeople} />
     </div>
   )
 }
