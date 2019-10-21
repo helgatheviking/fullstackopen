@@ -6,15 +6,17 @@ const Form = ({
 	inputs
 }) => {
 	return (
-		<form onSubmit={onSubmit}>
-
-		{inputs.map((input, i) => {
-				return (<Input key={i} input={input} />)
-			})}
 		<div>
-			<button type="submit">add</button>
+			<h2>Add a new person</h2>
+			<form onSubmit={onSubmit}>
+				{inputs.map((input, i) => {
+						return (<Input key={i} input={input} />)
+					})}
+				<div>
+					<button type="submit">add</button>
+				</div>
+			</form>
 		</div>
-	</form>
 	)
 }
 
