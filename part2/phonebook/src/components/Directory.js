@@ -2,7 +2,6 @@ import React from 'react'
 import Person from './Person';
 
 const Directory = (props) => {
-
 	return (
 		<div>
 			<h2>{props.heading}</h2>
