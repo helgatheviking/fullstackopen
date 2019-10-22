@@ -34,7 +34,7 @@ const App = () => {
 		} else if (matchingCountries.length > 10) {
 			found = <div>Too many matches found, be more precise</div>;
 		} else {
-			found = <CountriesList countries={matchingCountries} />;
+			found = <CountriesList countries={matchingCountries} selectCountry={updateCountryState} />;
 		}
 	}
 
