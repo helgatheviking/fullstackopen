@@ -3,19 +3,23 @@ import './App.css';
 import Filter from './components/Filter';
 import Form from './components/Form';
 import Directory from './components/Directory';
+import axios from 'axios';
 
 const App = () => {
-  const [ people, setPeople] = useState([
-	{ name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+
+  const [ people, setPeople] = useState([]);
 
   const defaultState = {
 		name: '',
 		number: ''
   }
+
+  const promise = axios.get('http://localhost:3001/persons')
+
+  promise.then(response => {
+	setPeople(response.data)
+  })
+
   const [ formState, setFormState ] = useState(defaultState)
   const [ newFilter, setNewFilter ] = useState('');
 
