@@ -1,50 +1,41 @@
-import React, { useState } from 'react'
-import Filter from './components/Filter';
-import CountriesList from './components/CountriesList';
-import SingleCountry from './components/SingleCountry';
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
+import Filter from './components/Filter';
+import Countries from './components/Countries';
 
 const App = () => {
 
-  const [ countries, setCountry] = useState([]);
+	const [countries, setCountries] = useState([]);
+	const [query, setQuery] = useState("");
+	const [matches, setMatches] = useState([]);
 
-  const promise = axios.get('https://restcountries.eu/rest/v2/all')
+	const fetchCountries = () => {
 
-  promise.then(response => {
-	setCountry(response.data)
-  })
+		axios
+			.get('https://restcountries.eu/rest/v2/all')
+			.then(response => {
+				setCountries(response.data)
+			})
 
-  const [ newCountry, setNewCountry ] = useState('');
-
-  const updateCountryState = (event) => {
-	setNewCountry(event.target.value)
-  }
-
-  	let matchingCountries = newCountry !== ''
-  		? countries.filter(country => country.name.toLowerCase().indexOf(newCountry.toLowerCase()) !== -1)
-		: countries;
-
-	let found;
-
-	if( newCountry.length > 0 ) {
-		if (matchingCountries.length === 0) {
-			found = <div>No matches found</div>;
-		} else if (matchingCountries.length === 1) {
-			found = <SingleCountry country={matchingCountries.shift()} />;
-		} else if (matchingCountries.length > 10) {
-			found = <div>Too many matches found, be more precise</div>;
-		} else {
-			found = <CountriesList countries={matchingCountries} selectCountry={updateCountryState} />;
-		}
 	}
 
-  return (
+	useEffect(fetchCountries, [])
 
-    <div>
-	  <Filter value={newCountry} onChange={updateCountryState} />
-	  {found}
-    </div>
-  )
+	const findCountries = (event) => {
+		let filter = event.target.value
+		setQuery(filter); // current input value
+		let matchingCountries = filter !== ''
+			? countries.filter(country => country.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+			: [];
+		setMatches(matchingCountries)
+	}
+
+	return (
+		<div>
+			<Filter value={query} onChange={findCountries} />
+			<Countries countries={matches} selectCountry={findCountries} />
+		</div>
+	)
 }
 
 export default App
