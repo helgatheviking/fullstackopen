@@ -3,6 +3,7 @@ import './App.css';
 import Filter from './components/Filter';
 import Form from './components/Form';
 import Directory from './components/Directory';
+import Notification from './components/Notification';
 import peopleService from './services/people';
 
 const App = () => {
@@ -13,6 +14,8 @@ const App = () => {
 		name: '',
 		number: ''
   }
+
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const fetchPeople = () => {
 
@@ -59,6 +62,8 @@ const App = () => {
 				.update(foundPerson.id, updatedPerson)
 				.then((updatedPerson) => {
 					let updatedPeople = [...people]
+					setErrorMessage( `${updatedPerson.name} was updated on the server.` )
+					setTimeout(() => { setErrorMessage(null) }, 5000)
 					updatedPeople.splice( people.indexOf(foundPerson), 1, updatedPerson )
 					setPeople( updatedPeople );
 			})
@@ -75,7 +80,9 @@ const App = () => {
 
 		peopleService
 			.create(nameObject)
-			.then(() => {
+			.then((newPerson) => {
+				setErrorMessage( `${newPerson.name} was added on the server.` )
+				setTimeout(() => { setErrorMessage(null) }, 5000)
 				setPeople(people.concat(nameObject))
 				setFormState(defaultState)
 			})
@@ -90,6 +97,8 @@ const App = () => {
 		peopleService
 			.remove(id)
 			.then(() => {
+				setErrorMessage( `${name} was removed from the server.` )
+				setTimeout(() => { setErrorMessage(null) }, 5000)
 				let newPeople = people.filter(person=> person.id !== id);
 				setPeople(newPeople)
 			})
@@ -127,6 +136,7 @@ const App = () => {
 
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
 	  <Filter inputs={searchInputs} />
       <Form onSubmit={addPerson} inputs={inputs} />
       <Directory heading="Phone Directory" people={foundPeople} removeHandler={removePerson} />
