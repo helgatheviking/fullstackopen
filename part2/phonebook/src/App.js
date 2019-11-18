@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css';
 import Filter from './components/Filter';
 import Form from './components/Form';
@@ -14,11 +14,17 @@ const App = () => {
 		number: ''
   }
 
-  const promise = axios.get('http://localhost:3001/persons')
+  const fetchPeople = () => {
 
-  promise.then(response => {
-	setPeople(response.data)
-  })
+	axios
+		.get('http://localhost:3001/persons')
+		.then(response => {
+			setPeople(response.data)
+		})
+
+  }
+
+  useEffect(fetchPeople, [])
 
   const [ formState, setFormState ] = useState(defaultState)
   const [ newFilter, setNewFilter ] = useState('');
