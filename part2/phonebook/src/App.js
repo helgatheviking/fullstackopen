@@ -15,7 +15,8 @@ const App = () => {
 		number: ''
   }
 
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [noticeMessage, setNoticeMessage] = useState(null)
+  const [noticeType, setNoticeType] = useState(null)
 
   const fetchPeople = () => {
 
@@ -62,14 +63,22 @@ const App = () => {
 				.update(foundPerson.id, updatedPerson)
 				.then((updatedPerson) => {
 					let updatedPeople = [...people]
-					setErrorMessage( `${updatedPerson.name} was updated on the server.` )
-					setTimeout(() => { setErrorMessage(null) }, 5000)
+					setNoticeMessage( `${updatedPerson.name} was updated on the server.` )
+					setTimeout(() => { setNoticeMessage(null) }, 5000)
 					updatedPeople.splice( people.indexOf(foundPerson), 1, updatedPerson )
 					setPeople( updatedPeople );
-			})
+				})
+				.catch(() => {
+					setNoticeMessage( `${updatedPerson.name} cannot be updated as it no longer exists on the server.` )
+					setNoticeType('error')
+					setTimeout(() => {
+						setNoticeMessage(null)
+						setNoticeType(null)
+					}, 5000)
+					setPeople(people.filter(n => n.id !== foundPerson.id))
+				})
 
 		}
-
 
 	} else {
 
@@ -81,8 +90,8 @@ const App = () => {
 		peopleService
 			.create(nameObject)
 			.then((newPerson) => {
-				setErrorMessage( `${newPerson.name} was added on the server.` )
-				setTimeout(() => { setErrorMessage(null) }, 5000)
+				setNoticeMessage( `${newPerson.name} was added on the server.` )
+				setTimeout(() => { setNoticeMessage(null) }, 5000)
 				setPeople(people.concat(nameObject))
 				setFormState(defaultState)
 			})
@@ -97,8 +106,8 @@ const App = () => {
 		peopleService
 			.remove(id)
 			.then(() => {
-				setErrorMessage( `${name} was removed from the server.` )
-				setTimeout(() => { setErrorMessage(null) }, 5000)
+				setNoticeMessage( `${name} was removed from the server.` )
+				setTimeout(() => { setNoticeMessage(null) }, 5000)
 				let newPeople = people.filter(person=> person.id !== id);
 				setPeople(newPeople)
 			})
@@ -136,7 +145,7 @@ const App = () => {
 
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification message={noticeMessage} type={noticeType} />
 	  <Filter inputs={searchInputs} />
       <Form onSubmit={addPerson} inputs={inputs} />
       <Directory heading="Phone Directory" people={foundPeople} removeHandler={removePerson} />
