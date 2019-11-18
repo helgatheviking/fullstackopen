@@ -3,7 +3,7 @@ import './App.css';
 import Filter from './components/Filter';
 import Form from './components/Form';
 import Directory from './components/Directory';
-import axios from 'axios';
+import peopleService from './services/people';
 
 const App = () => {
 
@@ -16,12 +16,11 @@ const App = () => {
 
   const fetchPeople = () => {
 
-	axios
-		.get('http://localhost:3001/persons')
+	peopleService
+		.getAll()
 		.then(response => {
 			setPeople(response.data)
 		})
-
   }
 
   useEffect(fetchPeople, [])
@@ -56,8 +55,8 @@ const App = () => {
 			id: people.length + 1,
 		}
 
-		axios
-			.post('http://localhost:3001/persons', nameObject)
+		peopleService
+			.create(nameObject)
 			.then(response => {
 				console.log(response)
 				setPeople(people.concat(nameObject))
