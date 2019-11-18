@@ -66,6 +66,20 @@ const App = () => {
 	}
   }
 
+  const removePerson = (id, name) => {
+
+	if( window.confirm(`Delete ${name}?`) ) {
+
+		peopleService
+			.remove(id)
+			.then(() => {
+				let newPeople = people.filter(person=> person.id !== id);
+				setPeople(newPeople)
+			})
+
+		}
+  }
+
   const inputs = [
 	{
 		name: 'name',
@@ -98,7 +112,7 @@ const App = () => {
       <h2>Phonebook</h2>
 	  <Filter inputs={searchInputs} />
       <Form onSubmit={addPerson} inputs={inputs} />
-      <Directory heading="Phone Directory" people={foundPeople} />
+      <Directory heading="Phone Directory" people={foundPeople} removeHandler={removePerson} />
     </div>
   )
 }

@@ -7,7 +7,7 @@ const Directory = (props) => {
 			<h2>{props.heading}</h2>
 			<ul>
 			{props.people.map((person, i) => {
-				return (<Person key={i} person={person} />)
+				return (<Person key={i} person={person} removeHandler={props.removeHandler} />)
 			})}
 			</ul>
 		</div>
