@@ -18,8 +18,8 @@ const App = () => {
 
 	peopleService
 		.getAll()
-		.then(response => {
-			setPeople(response.data)
+		.then(foundPeople => {
+			setPeople(foundPeople)
 		})
   }
 
@@ -57,9 +57,9 @@ const App = () => {
 
 			peopleService
 				.update(foundPerson.id, updatedPerson)
-				.then((response) => {
+				.then((updatedPerson) => {
 					let updatedPeople = [...people]
-					updatedPeople.splice( people.indexOf(foundPerson), 1, response.data )
+					updatedPeople.splice( people.indexOf(foundPerson), 1, updatedPerson )
 					setPeople( updatedPeople );
 			})
 
@@ -75,8 +75,7 @@ const App = () => {
 
 		peopleService
 			.create(nameObject)
-			.then(response => {
-				console.log(response)
+			.then(() => {
 				setPeople(people.concat(nameObject))
 				setFormState(defaultState)
 			})
