@@ -51,8 +51,7 @@ const App = () => {
 
 		const nameObject = {
 			name: formState.name,
-			number: formState.number,
-			id: people.length + 1,
+			number: formState.number
 		}
 
 		peopleService
