@@ -56,8 +56,14 @@ const App = () => {
 			id: people.length + 1,
 		}
 
-		setPeople(people.concat(nameObject))
-		setFormState(defaultState)
+		axios
+			.post('http://localhost:3001/persons', nameObject)
+			.then(response => {
+				console.log(response)
+				setPeople(people.concat(nameObject))
+				setFormState(defaultState)
+			})
+
 	}
   }
 
