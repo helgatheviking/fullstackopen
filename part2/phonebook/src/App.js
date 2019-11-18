@@ -45,8 +45,27 @@ const App = () => {
   const addPerson = ( event ) => {
 	event.preventDefault();
 
-	if( people.find( isNameDuplicate ) ) {
-		alert(formState.name + " is already added to the phonebook")
+	let foundPerson = people.find( isNameDuplicate )
+
+	if( foundPerson ) {
+
+		let msg = `${formState.name} is already added to the phonebook. Replace the old number with the new one?`
+
+		if( window.confirm( msg ) ) {
+
+			let updatedPerson = {...foundPerson, number: formState.number }
+
+			peopleService
+				.update(foundPerson.id, updatedPerson)
+				.then((response) => {
+					let updatedPeople = [...people]
+					updatedPeople.splice( people.indexOf(foundPerson), 1, response.data )
+					setPeople( updatedPeople );
+			})
+
+		}
+
+
 	} else {
 
 		const nameObject = {
